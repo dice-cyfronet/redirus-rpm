@@ -1,0 +1,21 @@
+upstream <%= @name %>_https {
+<% for worker in @workers -%>
+  server <%= worker %>;
+<% end -%>
+}
+
+server {
+  listen *:443 ssl;
+  server_name <%= @name %>.CHANGE_ME;
+
+  ssl_certificate     ;
+  ssl_certificate_key ;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+  location / {
+    proxy_pass http://<%= @name %>_https;
+<% for property in @location_properties -%>
+    <%= property %>;
+<% end -%>
+  }
+}

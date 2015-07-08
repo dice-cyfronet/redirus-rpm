@@ -1,0 +1,14 @@
+queues:
+  - redirus
+
+redis_url: redis://localhost:6379
+namespace: redirus
+
+nginx:
+  configs_path: /opt/redirus/resources/configurations
+  pid: /opt/redirus/resources/nginx.pid
+  http_template: /opt/redirus/resources/http.conf.erb
+  https_template: /opt/redirus/resources/https.conf.erb
+  allowed_properties:
+    - proxy_sent_timeout \d
+    - proxy_read_timeout \d

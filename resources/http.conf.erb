@@ -1,0 +1,17 @@
+upstream <%= @name %>_http {
+<% for worker in @workers -%>
+  server <%= worker %>;
+<% end -%>
+}
+
+server {
+  listen *:80;
+  server_name <%= @name %>.CHANGE_ME;
+
+  location / {
+    proxy_pass http://<%= @name %>_http;
+<% for property in @location_properties -%>
+    <%= property %>;
+<% end -%>
+  }
+}
