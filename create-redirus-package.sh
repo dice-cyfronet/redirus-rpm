@@ -170,6 +170,8 @@ popd
 
 gem fetch redirus -v 0.2.1
 
+git clone https://github.com/dice-cyfronet/redirus-rpm.git
+
 ##
 # Build script.
 ##
@@ -192,13 +194,14 @@ rm -rf \${RPM_BUILD_ROOT}/opt
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/bin
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/ruby
+mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/resources
 
 cp -r %{_builddir}/bin/* \${RPM_BUILD_ROOT}/opt/redirus/bin
+cp -r %{_builddir}/redirus-rpm/resources/* \${RPM_BUILD_ROOT}/opt/redirus/resources 
 cp -r /opt/redirus/ruby/* \${RPM_BUILD_ROOT}/opt/redirus/ruby
 
 %files
-%defattr(-, redirus, redirus, 755)
-
+%defattr(755, redirus, redirus, 755)
 %dir /opt/redirus
 /opt/redirus/*
 
