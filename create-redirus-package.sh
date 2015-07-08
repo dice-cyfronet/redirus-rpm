@@ -199,6 +199,9 @@ mkdir -p \${RPM_BUILD_ROOT}/opt/redirus
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/bin
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/ruby
 mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/resources
+mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/resources/configurations
+mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/resources/log 
+mkdir -p \${RPM_BUILD_ROOT}/opt/redirus/resources/tmp
 
 cp -r %{_builddir}/bin/* \${RPM_BUILD_ROOT}/opt/redirus/bin
 cp -r %{_builddir}/redirus-rpm/resources/* \${RPM_BUILD_ROOT}/opt/redirus/resources 
