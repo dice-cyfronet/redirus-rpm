@@ -115,6 +115,12 @@ echo  "Link nginx-redirus systemd configuration file."
 
 ln -s -t /usr/lib/systemd/system /opt/redirus/resources/nginx-redirus.service
 
+systemctl stop nginx.service
+systemctl disable nginx.service
+
+systemctl enable nginx-redirus.service
+systemctl start nginx-redirus.service
+
 ##
 # Preuninstall script.
 ##
