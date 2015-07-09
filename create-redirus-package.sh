@@ -77,12 +77,7 @@ function log_shell
     fi
 }
 
-echo "Run before installation from the new package."
-
-log_shell "Enable nginx" \
-            "systemctl enable nginx.service"
-log_shell "Start nginx" \
-            "systemctl start nginx.service"
+echo "Run before installation frodm the new package."
 
 ##
 # Postinstall script.
@@ -111,17 +106,19 @@ pushd /usr/bin
     ln -s /opt/redirus/bin/redirus-client redirus-client 
 popd
 
-echo  "Link nginx-redirus systemd configuration file."
+echo  "Link systemd configuration files."
 
-ln -s -t /usr/lib/systemd/system /opt/redirus/resources/nginx-redirus.service
+pushd /usr/lib/systemd/system
+    ln -s /opt/redirus/resources/nginx-redirus.service nginx-redirus.service
+    ln -s /opt/redirus/resources/redirus.service redirus.service
+popd 
 
-systemctl stop nginx.service
-systemctl disable nginx.service
+echo  "Setting capabilities to allow nginx to bind to low-numbered ports."
 
-log_shell "Enable 'nginx-redirus' service" \
-            "systemctl enable nginx-redirus.service"
-log_shell "Start 'nginx-redirus' service" \
-            "systemctl start nginx-redirus.service"
+setcap 'cap_net_bind_service=+ep' `which nginx`
+
+log_shell "Enable 'redirus' service" \
+            "systemctl enable redirus.service"
 
 ##
 # Preuninstall script.
@@ -134,6 +131,7 @@ function log_shell
 
     if [[ \$? == 0 ]]; then
         printf "\033[32msucceed\033[0m\n"
+:q
     else
         printf "\033[31mfailed\033[0m\n------------\n\${output}\n------------\n"
         exit 1

@@ -1,0 +1,17 @@
+[Unit]
+Description=The nginx HTTP and reverse proxy server
+Wants=nginx-redirus.service
+After=nginx-redirus.service
+
+[Service]
+User=redirus
+ExecStart=/usr/bin/redirus -c /opt/redirus/resources/config.yml
+KillMode=proces
+StandardOutput=syslog                                                             
+StandardError=syslog             
+SyslogIdentifier=%n
+
+[Install]
+WantedBy=multi-user.target
+
+
