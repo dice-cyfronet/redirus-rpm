@@ -53,7 +53,7 @@ Summary: Redirus
 Group: Redirus
 BuildArch: x86_64
 
-Requires: autoconf bison gcc gcc-c++ make openssl-devel libyaml-devel readline-devel zlib-devel pcre pcre-devel libcap nginx
+Requires: libcap nginx
 
 BuildRequires: epel-release ruby ruby(rubygems) autoconf bison gcc gcc-c++ make openssl-devel libyaml-devel readline-devel zlib-devel pcre pcre-devel libcap
 
@@ -78,6 +78,9 @@ function log_shell
 }
 
 echo "Run before installation frodm the new package."
+
+log_shell "Create 'redirus' user (if does not exist)" \
+            "id -u redirus &>/dev/null || adduser --home-dir /opt/redirus --system redirus"
 
 ##
 # Postinstall script.
@@ -115,7 +118,7 @@ popd
 
 echo  "Setting capabilities to allow nginx to bind to low-numbered ports."
 
-setcap 'cap_net_bind_service=+ep' `which nginx`
+setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx
 
 log_shell "Enable 'redirus' service" \
             "systemctl enable redirus.service"

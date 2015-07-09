@@ -1,12 +1,12 @@
 [Unit]
-Description=The nginx HTTP and reverse proxy server
+Description=Redirus service responsible for creating/deleting subdomain redirections.
 Wants=nginx-redirus.service
 After=nginx-redirus.service
 
 [Service]
 User=redirus
 ExecStart=/usr/bin/redirus -c /opt/redirus/resources/config.yml
-KillMode=proces
+KillMode=process
 StandardOutput=syslog                                                             
 StandardError=syslog             
 SyslogIdentifier=%n
