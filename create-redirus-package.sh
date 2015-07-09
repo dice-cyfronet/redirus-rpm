@@ -109,19 +109,14 @@ pushd /usr/bin
     ln -s /opt/redirus/bin/redirus-client redirus-client 
 popd
 
-echo  "Link systemd configuration files."
-
-pushd /usr/lib/systemd/system
-    ln -s /opt/redirus/resources/nginx-redirus.service nginx-redirus.service
-    ln -s /opt/redirus/resources/redirus.service redirus.service
-popd 
-
 echo  "Setting capabilities to allow nginx to bind to low-numbered ports."
 
 setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx
 
-log_shell "Enable 'redirus' service" \
-            "systemctl enable redirus.service"
+log_shell "Enable 'nginx-redirus' service" "systemctl enable /opt/redirus/resources/nginx-redirus.service"
+log_shell "Enable 'redirus' service" "systemctl enable /opt/redirus/resources/redirus.service"
+
+echo "Remember to either set SELinux enforce to 0 or write appropriate SELinux policy."
 
 ##
 # Preuninstall script.
@@ -183,6 +178,7 @@ popd
 
 gem fetch redirus -v 0.2.1
 
+rm -rf redirus-rpm
 git clone https://github.com/dice-cyfronet/redirus-rpm.git
 
 ##
